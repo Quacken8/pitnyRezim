@@ -17,6 +17,7 @@
 
   function clearInput() {
     const input = document.querySelector("input");
+    newName = "";
     input.value = "";
   }
 
