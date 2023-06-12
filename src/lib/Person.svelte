@@ -1,6 +1,10 @@
 <script lang="ts">
+    import Fa from "svelte-fa";
+    import { faDroplet as solidDroplet } from "@fortawesome/free-solid-svg-icons";
+    import { faDropletSlash as regularDroplet } from "@fortawesome/free-solid-svg-icons";
+
     export let name = "John Doe";
-    export let hidration = 0;
+    export let currentHidration = 0;
     const maxHidration = 10;
     const minHidration = 0;
 
@@ -8,13 +12,22 @@
     const coffeeHidration = 1;
 
     function drinkWater() {
-        hidration = Math.min(hidration + waterHidration, maxHidration);
+        currentHidration = Math.min(
+            currentHidration + waterHidration,
+            maxHidration
+        );
     }
     function drinkCoffee() {
-        hidration = Math.min(hidration + coffeeHidration, maxHidration);
+        currentHidration = Math.min(
+            currentHidration + coffeeHidration,
+            maxHidration
+        );
     }
     function loseHidration() {
-        hidration = Math.max(hidration - 1, minHidration);
+        currentHidration = Math.max(currentHidration - 1, minHidration);
+    }
+    function range(start, end) {
+        return Array.from({ length: end - start }, (_, i) => start + i);
     }
 </script>
 
@@ -23,17 +36,29 @@
         {name}
     </div>
     <div class="bar">
-        currently at {hidration}
+        {#each range(minHidration, currentHidration) as _}
+            <div class="icon">
+                <Fa icon={solidDroplet} />
+            </div>
+        {/each}
+        {#each range(currentHidration, maxHidration) as _}
+            <div class="icon">
+                <Fa class="icon" icon={regularDroplet} />
+            </div>
+        {/each}
     </div>
-    <button class="water" on:click={drinkWater}>
-        Water
-    </button>
-    <button class="coffee" on:click={drinkCoffee}>
-        Coffee
-    </button>
+    <button class="water" on:click={drinkWater}> Water </button>
+    <button class="coffee" on:click={drinkCoffee}> Coffee </button>
 </div>
 
 <style lang="scss">
+    .icon {
+        width: 1em;
+        margin: 0 0.1em;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
     .person {
         display: grid;
         grid-template-columns: 2fr 3fr 1fr 1fr;
@@ -61,5 +86,4 @@
         grid-area: coffee;
         @include centered;
     }
-    
 </style>

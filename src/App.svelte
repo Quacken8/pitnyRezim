@@ -1,5 +1,6 @@
 <script lang="ts">
   import Person from "./lib/Person.svelte";
+  import Controls from "./lib/Controls.svelte";
 </script>
 
 <main class="container">
@@ -8,6 +9,7 @@
   <Person name="Jane Doe" />
   <Person name="John Smith" />
   <Person name="Jane Smith" />
+  <Controls/>
 
 </main>
 
